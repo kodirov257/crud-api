@@ -11,6 +11,16 @@ export class UserController {
     this.service = service;
   }
 
+  public list(
+    request: IncomingMessage,
+    response: ServerResponse,
+  ): ServerResponse {
+    const users: User[] = this.service.getAll();
+
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    return response.end(JSON.stringify(users));
+  }
+
   public async create(
     request: IncomingMessage,
     response: ServerResponse,

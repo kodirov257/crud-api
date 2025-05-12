@@ -16,10 +16,15 @@ const handler = async (
     return res.end(JSON.stringify({ error: 'Request not found' }));
   }
 
-  const match: { matched: boolean; params: Record<string, string> } = matchPath(
-    'api/users',
-    url,
-  );
+  let match = matchPath('api/users', url);
+  if (match.matched && method === 'GET') {
+    const controller = Container.getInstance().get<UserController>(
+      UserController.name,
+    );
+    return controller.list(req, res);
+  }
+
+  match = matchPath('api/users', url);
   if (match.matched && method === 'POST') {
     const controller = Container.getInstance().get<UserController>(
       UserController.name,
