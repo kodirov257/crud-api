@@ -3,32 +3,27 @@ import { randomUUID } from 'node:crypto';
 import { Repository } from '../contracts/Repository';
 import { User } from '../models/User';
 
-const users: User[] = [];
+let users: Record<string, User> = {};
 
 export const resetUsers = () => {
-  users.length = 0;
+  users = {};
 };
 
 export class UserRepository implements Repository<User> {
   public all(): User[] {
-    return users;
+    return Object.values(users);
   }
 
   public create(username: string, age: number, hobbies?: string[]): User {
     const user = new User(randomUUID().toString(), username, age, hobbies);
 
-    users.push(user);
+    users[user.id] = user;
 
     return user;
   }
 
   public find(id: string): User | undefined {
-    for (const user of users) {
-      if (user.id === id) {
-        return user;
-      }
-    }
-    return undefined;
+    return users[id];
   }
 
   public update(
@@ -41,10 +36,16 @@ export class UserRepository implements Repository<User> {
     user.age = age;
     user.hobbies = hobbies;
 
+    users[user.id] = user;
+
     return user;
   }
 
   public remove(user: User): boolean {
-    return users.splice(users.indexOf(user), 1).length > 0;
+    if (users[user.id]) {
+      delete users[user.id];
+      return true;
+    }
+    return false;
   }
 }
