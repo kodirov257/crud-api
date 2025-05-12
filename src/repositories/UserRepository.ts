@@ -5,6 +5,16 @@ import { User } from '../models/User';
 
 let users: Record<string, User> = {};
 
+export const setUsers = (updatedUsers: User[]) => {
+  users = updatedUsers.reduce(
+    (acc, user) => {
+      acc[user.id] = user;
+      return acc;
+    },
+    {} as Record<string, User>,
+  );
+};
+
 export const resetUsers = () => {
   users = {};
 };

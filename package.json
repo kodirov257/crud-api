@@ -15,7 +15,8 @@
     "test:verbose": "jest",
     "build": "webpack",
     "start:prod": "npm run build && cross-env NODE_ENV=production node dist/bundle.js",
-    "start:dev": "cross-env NODE_ENV=development nodemon ./src/index.ts"
+    "start:dev": "cross-env NODE_ENV=development nodemon ./src/index.ts",
+    "start:multi": "nodemon ./src/index-multi.ts"
   },
   "repository": {
     "type": "git",
