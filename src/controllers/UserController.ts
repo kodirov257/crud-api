@@ -88,4 +88,30 @@ export class UserController {
     response.writeHead(200, { 'Content-Type': 'application/json' });
     return response.end(JSON.stringify(user));
   }
+
+  public async remove(
+      request: IncomingMessage,
+      response: ServerResponse,
+      id: string
+  ): Promise<ServerResponse> {
+    if (!isUUID(id)) {
+      response.writeHead(400, { 'Content-Type': 'application/json' });
+      return response.end(JSON.stringify({ error: 'Invalid user id'}));
+    }
+
+    let user = this.service.find(id);
+
+    if (!user) {
+      response.writeHead(404, { 'Content-Type': 'application/json' });
+      return response.end(JSON.stringify({ error: 'User not found' }));
+    }
+
+    if (this.service.remove(user)) {
+      response.writeHead(204, { 'Content-Type': 'application/json' });
+      return response.end(JSON.stringify(user));
+    }
+
+    response.writeHead(400, { 'Content-Type': 'application/json' });
+    return response.end(JSON.stringify({ error: 'User not removed'}));
+  }
 }

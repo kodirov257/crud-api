@@ -23,4 +23,8 @@ export class UserService {
   public update(user: User, username: string, age: number, hobbies?: string[]): User {
     return this.repository.update(user, username, age, hobbies);
   }
+
+  public remove (user: User): boolean {
+    return this.repository.remove(user);
+  }
 }

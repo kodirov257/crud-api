@@ -34,4 +34,8 @@ export class UserRepository implements Repository<User> {
 
     return user;
   }
+
+  public remove(user: User): boolean {
+    return users.splice(users.indexOf(user), 1).length > 0;
+  }
 }
