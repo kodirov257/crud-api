@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 
 import { UserService } from '../services/UserService';
-import {isUUID, parseRequestBody} from '../utils';
+import { isUUID, parseRequestBody } from '../utils';
 import { User } from '../models/User';
 
 export class UserController {
@@ -29,7 +29,9 @@ export class UserController {
 
     if (!username || !age) {
       response.writeHead(400, { 'Content-Type': 'application/json' });
-      return response.end(JSON.stringify({ error: 'Please provide username and age'}));
+      return response.end(
+        JSON.stringify({ error: 'Please provide username and age' }),
+      );
     }
 
     const user: User = this.service.create(username, age, hobbies);
@@ -39,13 +41,13 @@ export class UserController {
   }
 
   public show(
-      request: IncomingMessage,
-      response: ServerResponse,
-      id: string
+    request: IncomingMessage,
+    response: ServerResponse,
+    id: string,
   ): ServerResponse {
     if (!isUUID(id)) {
       response.writeHead(400, { 'Content-Type': 'application/json' });
-      return response.end(JSON.stringify({ error: 'Invalid user id'}));
+      return response.end(JSON.stringify({ error: 'Invalid user id' }));
     }
 
     const user = this.service.find(id);
@@ -60,13 +62,13 @@ export class UserController {
   }
 
   public async update(
-      request: IncomingMessage,
-      response: ServerResponse,
-      id: string
+    request: IncomingMessage,
+    response: ServerResponse,
+    id: string,
   ): Promise<ServerResponse> {
     if (!isUUID(id)) {
       response.writeHead(400, { 'Content-Type': 'application/json' });
-      return response.end(JSON.stringify({ error: 'Invalid user id'}));
+      return response.end(JSON.stringify({ error: 'Invalid user id' }));
     }
 
     let user = this.service.find(id);
@@ -80,7 +82,9 @@ export class UserController {
 
     if (!username || !age) {
       response.writeHead(400, { 'Content-Type': 'application/json' });
-      return response.end(JSON.stringify({ error: 'Please provide username and age'}));
+      return response.end(
+        JSON.stringify({ error: 'Please provide username and age' }),
+      );
     }
 
     user = this.service.update(user, username, age, hobbies);
@@ -90,16 +94,16 @@ export class UserController {
   }
 
   public async remove(
-      request: IncomingMessage,
-      response: ServerResponse,
-      id: string
+    request: IncomingMessage,
+    response: ServerResponse,
+    id: string,
   ): Promise<ServerResponse> {
     if (!isUUID(id)) {
       response.writeHead(400, { 'Content-Type': 'application/json' });
-      return response.end(JSON.stringify({ error: 'Invalid user id'}));
+      return response.end(JSON.stringify({ error: 'Invalid user id' }));
     }
 
-    let user = this.service.find(id);
+    const user = this.service.find(id);
 
     if (!user) {
       response.writeHead(404, { 'Content-Type': 'application/json' });
@@ -112,6 +116,6 @@ export class UserController {
     }
 
     response.writeHead(400, { 'Content-Type': 'application/json' });
-    return response.end(JSON.stringify({ error: 'User not removed'}));
+    return response.end(JSON.stringify({ error: 'User not removed' }));
   }
 }

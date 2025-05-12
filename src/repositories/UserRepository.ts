@@ -5,6 +5,10 @@ import { User } from '../models/User';
 
 const users: User[] = [];
 
+export const resetUsers = () => {
+  users.length = 0;
+};
+
 export class UserRepository implements Repository<User> {
   public all(): User[] {
     return users;
@@ -17,8 +21,8 @@ export class UserRepository implements Repository<User> {
 
     return user;
   }
-  
-  public find(id: string): User|undefined {
+
+  public find(id: string): User | undefined {
     for (const user of users) {
       if (user.id === id) {
         return user;
@@ -27,7 +31,12 @@ export class UserRepository implements Repository<User> {
     return undefined;
   }
 
-  public update(user: User, username: string, age: number, hobbies?: string[]): User {
+  public update(
+    user: User,
+    username: string,
+    age: number,
+    hobbies?: string[],
+  ): User {
     user.username = username;
     user.age = age;
     user.hobbies = hobbies;
