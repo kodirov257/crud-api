@@ -32,6 +32,20 @@ const handler = async (
     return await controller.create(req, res);
   }
 
+  match = matchPath('api/users/{userId}', url);
+  if (match.matched && method === 'GET') {
+    const controller = Container.getInstance().get<UserController>(
+      UserController.name,
+    );
+
+    if (!match.params.userId) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'Invalid user id'}));
+    }
+
+    return controller.show(req, res, match.params.userId);
+  }
+
   res.writeHead(404, { 'Content-Type': 'application/json' });
   return res.end(JSON.stringify({ error: 'Request not found' }));
 };

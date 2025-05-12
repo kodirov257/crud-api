@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 
 import { UserService } from '../services/UserService';
-import { parseRequestBody } from '../utils';
+import {isUUID, parseRequestBody} from '../utils';
 import { User } from '../models/User';
 
 export class UserController {
@@ -33,6 +33,27 @@ export class UserController {
     }
 
     const user: User = this.service.create(username, age, hobbies);
+
+    response.writeHead(201, { 'Content-Type': 'application/json' });
+    return response.end(JSON.stringify(user));
+  }
+
+  public show(
+      request: IncomingMessage,
+      response: ServerResponse,
+      id: string
+  ): ServerResponse {
+    const user = this.service.find(id);
+
+    if (!isUUID(id)) {
+      response.writeHead(400, { 'Content-Type': 'application/json' });
+      return response.end(JSON.stringify({ error: 'Invalid user id'}));
+    }
+
+    if (!user) {
+      response.writeHead(404, { 'Content-Type': 'application/json' });
+      return response.end(JSON.stringify({ error: 'User not found' }));
+    }
 
     response.writeHead(200, { 'Content-Type': 'application/json' });
     return response.end(JSON.stringify(user));

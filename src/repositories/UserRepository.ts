@@ -17,4 +17,13 @@ export class UserRepository implements Repository<User> {
 
     return user;
   }
+  
+  public find(id: string): User|undefined {
+    for (const user of users) {
+      if (user.id === id) {
+        return user;
+      }
+    }
+    return undefined;
+  }
 }
