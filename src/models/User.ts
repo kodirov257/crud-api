@@ -2,7 +2,7 @@ export class User {
   public id: string;
   public username: string;
   public age: number;
-  public hobbies: string[];
+  public hobbies?: string[];
 
   constructor(id: string, username: string, age: number, hobbies?: string[]) {
     this.id = id;

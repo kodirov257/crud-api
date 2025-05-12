@@ -46,6 +46,20 @@ const handler = async (
     return controller.show(req, res, match.params.userId);
   }
 
+  match = matchPath('api/users/{userId}', url);
+  if (match.matched && method === 'PUT') {
+    const controller = Container.getInstance().get<UserController>(
+      UserController.name,
+    );
+
+    if (!match.params.userId) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'Invalid user id'}));
+    }
+
+    return await controller.update(req, res, match.params.userId);
+  }
+
   res.writeHead(404, { 'Content-Type': 'application/json' });
   return res.end(JSON.stringify({ error: 'Request not found' }));
 };

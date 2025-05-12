@@ -19,4 +19,8 @@ export class UserService {
   public find(id: string): User|undefined {
     return this.repository.find(id);
   }
+
+  public update(user: User, username: string, age: number, hobbies?: string[]): User {
+    return this.repository.update(user, username, age, hobbies);
+  }
 }

@@ -26,4 +26,12 @@ export class UserRepository implements Repository<User> {
     }
     return undefined;
   }
+
+  public update(user: User, username: string, age: number, hobbies?: string[]): User {
+    user.username = username;
+    user.age = age;
+    user.hobbies = hobbies;
+
+    return user;
+  }
 }
