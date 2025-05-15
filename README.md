@@ -9,7 +9,8 @@ Completed as part of the [RS School: CRUD API](https://github.com/AlreadyBored/n
 2. Clone this repo locally
 3. Navigate to `crud-api`
 4. Install all dependencies using [`npm install`](https://docs.npmjs.com/cli/install)
-5. Run the application (e.g., in development mode) `npm run start:dev`
+5. Copy `.env.development` or `.env.production` to `.env` file
+6. Run the application (e.g., in development mode) `npm run start:dev`
 
 ## Work modes
 
